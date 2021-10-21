@@ -19,6 +19,30 @@ ScaleTransform::ScaleTransform() : _widget(new QWidget()), ui(new Ui::ScaleTrans
     emit parametersChanged();
   });
 
+  connect(ui->buttonFactorKmhMs, &QPushButton::clicked, this, [=]() {
+    const double factor = 1 / 3.6;
+    ui->lineEditValueScale->setText(QString::number(factor, 'g', 5));
+    emit parametersChanged();
+  });
+
+  connect(ui->buttonFactorMsKmh, &QPushButton::clicked, this, [=]() {
+    const double factor = 3.6;
+    ui->lineEditValueScale->setText(QString::number(factor, 'g', 5));
+    emit parametersChanged();
+  });
+
+  connect(ui->buttonFactorMinusOne, &QPushButton::clicked, this, [=]() {
+    const double factor = -1;
+    ui->lineEditValueScale->setText(QString::number(factor, 'g', 5));
+    emit parametersChanged();
+  });
+
+  connect(ui->buttonFactorOne, &QPushButton::clicked, this, [=]() {
+    const double factor = 1;
+    ui->lineEditValueScale->setText(QString::number(factor, 'g', 5));
+    emit parametersChanged();
+  });
+
   connect(ui->lineEditTimeOffset, &QLineEdit::editingFinished, this,
           [=]() { emit parametersChanged(); });
   connect(ui->lineEditValueOffset, &QLineEdit::editingFinished, this,
