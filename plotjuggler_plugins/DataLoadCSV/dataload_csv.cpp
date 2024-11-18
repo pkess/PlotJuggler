@@ -453,13 +453,24 @@ bool DataLoadCSV::readDataFromFile(FileLoadInfo* info, PlotDataMapRef& plot_data
     {
       auto err_msg = QString("The number of values at line %1 is %2,\n"
                              "but the expected number of columns is %3.\n"
-                             "Aborting...")
+                             "Ignore line and proceed or abort?")
                          .arg(linecount + 1)
                          .arg(string_items.size())
                          .arg(column_names.size());
 
-      QMessageBox::warning(nullptr, "Error reading file", err_msg);
-      return false;
+      QMessageBox::StandardButton reply;
+      reply = QMessageBox::question(
+        this, tr("Warning"), err_msg,
+        QMessageBox::Ignore | QMessageBox::Abort, QMessageBox::NoButton);
+
+      if (reply == QMessageBox::Ignore)
+      {
+        continue;
+      }
+      else
+      {
+        return false;
+      }
     }
 
     double t = linecount;
